@@ -11,12 +11,128 @@
 
 <body>
     <noscript>JavaScript is needed for this site to work.</noscript>
-    <a id="link" href="javascript:alert('Error: Bookmarklet not loaded. Please re-download it.')">Click and Hold</a>
+    <div id="downloader-content">
+        <main>
+            <a id="link" href="javascript:alert('Error: Bookmarklet not loaded. Please re-download it.')"
+                draggable="true">Click and Drag</a>
+            <img id="pointer" src="pointinghand.svg">
+        </main>
+        <div class="instructions">
+            <p id="text-instructions">To download the <span id="name-container"></span>bookmarklet, drag the button
+                above to your bookmarks bar.</p>
+            <p class="error" id="must-click-and-drag" style="opacity: 0;">You must click and then <strong>drag</strong>
+                to install</p>
+        </div>
+    </div>
+    <div id="creator-content" style="display: none;">
+        <form id="creator-form" action="/" method="get">
+            <label class="input">
+                <span>Paste Bookmarklet</span>
+                <input name="url" style="font-family: monospace;" id="bookmarklet-url"
+                    placeholder="javascript:alert(1)" />
+            </label>
+            <label class="input">
+                <span>Name (optional)</span>
+                <input name="name" />
+            </label>
+            <button id="creator-submit">Create</button>
+        </form>
+    </div>
+    <footer>
+        <span id="create-own-downloader-container">
+            <a href="/" id="create-own-downloader-link">Create Your Own</a>
+            •
+        </span>
+        <span>Made with ❤️ by <a href="https://natelev.in/" class="website-link">Nate Levin</a> •
+            <a href="https://github.com/UltimatePro-Grammer/installbookmarklet" title="Read source code on GitHub"
+                class="github-link" target="_blank">
+                <img src="logo-github.svg">
+            </a>
+        </span>
+    </footer>
+
     <script>
-        // if on mobile, say to click and hold
-        const link = document.getElementById("link");
-        if (/Mobi/i.test(navigator.userAgent)) {
-            // TODO: Mobile Support
+        const queryParams = new URLSearchParams(location.search);
+        const code = queryParams.get("url");
+        const name = queryParams.get("name");
+
+        if (code) {
+            let ogLinkText = "Click and Drag";
+
+            const link = document.getElementById("link");
+            const nameContainer = document.getElementById("name-container");
+            const mustClickAndDrag = document.getElementById("must-click-and-drag");
+
+            link.href = code;
+
+            if (name) {
+                nameContainer.textContent = name + " ";
+            }
+
+            const infoEl = document.createElement("div");
+            infoEl.classList.add("info");
+
+            const star = document.createElement("div");
+            star.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Star</title><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="#fcdf03" stroke="currentColor" stroke-linejoin="round" stroke-width="18"/></svg>`;
+            star.classList.add("star");
+            infoEl.append(star);
+
+            const explanation = document.createElement("div");
+            explanation.classList.add("explanation");
+            explanation.textContent = "Keep dragging and bring the star to the bookmarks bar.";
+            infoEl.append(explanation);
+
+            link.ondragstart = (event) => {
+                link.textContent = "Drag Upwards";
+                mustClickAndDrag.animate([{ opacity: 0 }], { duration: 50, fill: "forwards" });
+
+                document.body.appendChild(infoEl);
+
+                event.dataTransfer.setDragImage(infoEl, 23, star.offsetTop + 20);
+
+                setTimeout(() => {
+                    infoEl.remove();
+                }, 0);
+            }
+
+            link.ondrag = (event) => {
+                // console.log(event);
+            }
+
+            link.ondragend = (event) => {
+                link.textContent = ogLinkText;
+            }
+
+
+            link.onclick = (event) => {
+                mustClickAndDrag.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, fill: "forwards" });
+                return false;
+            }
+
+            // if on mobile, say to click and hold
+            if (/Mobi/i.test(navigator.userAgent)) {
+                // TODO: Mobile Support
+            }
+        } else {
+            // show the generator page
+            document.getElementById("downloader-content").remove();
+            document.getElementById("create-own-downloader-container").remove();
+
+            const creatorContent = document.getElementById("creator-content");
+            creatorContent.style.display = "";
+
+            const creatorForm = document.getElementById("creator-form");
+            const bookmarkletUrl = document.getElementById("bookmarklet-url");
+            creatorForm.onsubmit = (event) => {
+                if (!bookmarkletUrl.value) {
+                    event.preventDefault();
+                    return;
+                }
+
+                if (!bookmarkletUrl.value.startsWith("javascript:")) {
+                    bookmarkletUrl.value = "javascript:" + bookmarkletUrl.value;
+                }
+            }
         }
     </script>
 </body>

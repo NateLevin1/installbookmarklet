@@ -3,27 +3,193 @@ body {
     height: 100%;
     min-height: 100%;
     margin: 0;
+    -webkit-font-smoothing: antialiased;
 }
 
-body {
+body,
+#downloader-content {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
         sans-serif;
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #link {
+    display: block;
     font-size: 1.3rem;
     background: linear-gradient(to right, #77a1d3, #79cbca);
     color: white;
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 1rem min(2.3rem, 10vw);
     text-align: center;
     text-decoration: none;
-    transition: transform 0.3s cubic-bezier(0.18, 0.54, 0.48, 1.2);
+    font-weight: 600;
 }
 
-#link:hover {
+#pointer {
+    pointer-events: none;
+    position: absolute;
+    left: 50%;
+    width: 36px;
+    transition: opacity 0.2s;
+    transform: translate(-50%, -50%);
+    animation: rotate 1s infinite alternate-reverse;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+@keyframes rotate {
+    from {
+        rotate: -1deg;
+    }
+    to {
+        rotate: 2deg;
+    }
+}
+
+main {
+    position: relative;
+    transition: transform 0.33s cubic-bezier(0, 0.21, 0.56, 1.33);
+}
+
+main:hover {
     transform: scale(1.25);
+}
+
+main:hover #pointer {
+    opacity: 0;
+}
+
+.instructions {
+    margin-top: 1rem;
+    font-weight: 300;
+    max-width: 50ch;
+    text-align: center;
+}
+
+.error {
+    color: rgb(210, 0, 49);
+}
+
+#text-instructions {
+    padding: 0rem 1rem;
+}
+
+#name-container {
+    font-weight: bold;
+}
+
+/* FOOTER */
+footer {
+    position: absolute;
+    font-size: 0.75rem;
+    bottom: 1rem;
+    width: 100%;
+    text-align: center;
+}
+#create-own-downloader-container {
+    display: inline-block;
+}
+#create-own-downloader-link {
+    color: rgba(0, 0, 0, 0.7);
+}
+.website-link {
+    color: rgb(0, 53, 210);
+}
+footer a {
+    text-underline-offset: 0.2em;
+}
+.github-link {
+    display: inline-block;
+}
+.github-link img {
+    height: 16px;
+    vertical-align: bottom;
+}
+
+/* DRAG IMAGE CSS */
+.info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    width: 48px;
+    height: 48px;
+}
+
+.explanation {
+    margin-left: 1.5rem;
+    color: white;
+    background: linear-gradient(to right, #5a9ece, #5e82b5);
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    width: 21ch;
+    text-align: center;
+}
+
+/* CREATOR CSS */
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+.input span {
+    margin-left: 0.3rem;
+    transition: color 0.2s;
+}
+.input:focus-within span {
+    color: rgb(0, 53, 210);
+}
+.input input {
+    font-size: 1.2rem;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 0.4rem 0.5rem;
+    margin: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    transition: box-shadow 0.3s;
+    outline: none;
+    line-height: 1.4rem;
+}
+.input input::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 0.8rem;
+}
+.input input:focus {
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+#creator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+
+#creator-submit {
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    margin: auto;
+    padding: 0.3rem 1.4rem;
+    background: linear-gradient(to right, #77a1d3, #79cbca);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    line-height: 1.6em;
+}
+#creator-submit:hover {
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+#creator-submit {
+    font-weight: 600;
 }
