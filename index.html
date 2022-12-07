@@ -29,6 +29,9 @@
             <p class="error" id="must-click-and-drag" style="opacity: 0;">You must click and then <strong>drag</strong>
                 to install</p>
         </div>
+        <div id="arrow" style="display: none; opacity: 0;">
+            <img src="arrow-up-outline.svg" width="48" />
+        </div>
     </div>
     <div id="creator-content" style="display: none;">
         <h1 id="creator-heading">Create an Installer</h1>
@@ -92,6 +95,7 @@
             const linkText = document.getElementById("link-text");
             const nameContainer = document.getElementById("name-container");
             const mustClickAndDrag = document.getElementById("must-click-and-drag");
+            const arrow = document.getElementById("arrow");
 
             link.href = code;
 
@@ -115,6 +119,7 @@
 
             link.ondragstart = (event) => {
                 linkText.textContent = "Drag Upwards";
+                arrow.style.display = "";
                 mustClickAndDrag.animate([{ opacity: 0 }], { duration: 50, fill: "forwards" });
 
                 document.body.appendChild(infoEl);
@@ -127,11 +132,20 @@
             }
 
             link.ondrag = (event) => {
-                // console.log(event);
+                if (event.y === 0) return;
+
+                const opacityHeight = 100;
+                const minOpacity = 0.1;
+                const opacity = event.y < opacityHeight ? (event.y / opacityHeight) * minOpacity : minOpacity;
+                arrow.style.top = `${event.y}px`;
+                arrow.style.opacity = opacity;
             }
 
             link.ondragend = (event) => {
                 linkText.textContent = ogLinkText;
+                arrow.style.top = "";
+                arrow.style.display = "none";
+                arrow.style.opacity = "0";
             }
 
 

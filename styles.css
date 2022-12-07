@@ -112,6 +112,17 @@ main:hover #pointer {
     background: rgb(0, 190, 127);
 }
 
+#arrow {
+    position: fixed;
+    bottom: calc(50% + 6rem);
+    color: rgba(0, 0, 0, 0.25);
+}
+#arrow img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
 /* FOOTER */
 footer {
     position: absolute;
