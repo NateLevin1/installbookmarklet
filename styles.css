@@ -17,7 +17,7 @@ body,
     align-items: center;
 }
 
-#link {
+#link-container {
     display: block;
     font-size: 1.3rem;
     background: linear-gradient(to right, #77a1d3, #79cbca);
@@ -25,8 +25,17 @@ body,
     border-radius: 6px;
     padding: 1rem min(2.3rem, 10vw);
     text-align: center;
-    text-decoration: none;
     font-weight: 600;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+#link {
+    text-decoration: none;
+    color: white;
+    position: absolute;
+    opacity: 0;
+    inset: 0;
 }
 
 #pointer {
@@ -141,6 +150,7 @@ footer a {
     display: flex;
     flex-direction: column;
     gap: 0.45rem;
+    max-width: 90vw;
 }
 .input span {
     margin-left: 0.3rem;

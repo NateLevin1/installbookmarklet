@@ -13,8 +13,13 @@
     <noscript>JavaScript is needed for this site to work.</noscript>
     <div id="downloader-content">
         <main>
-            <a id="link" href="javascript:alert('Error: Bookmarklet not loaded. Please re-download it.')"
-                draggable="true">Click and Drag</a>
+            <div id="link-container">
+                <!-- The actual link is overlayed onto the container because browsers will make the name of the bookmark
+                     equal to the textcontent of the dragged link -->
+                <a id="link" href="javascript:alert('Error: Bookmarklet not loaded. Please re-download it.')"
+                    draggable="true">New Bookmark</a>
+                <span id="link-text">Click and Drag</span>
+            </div>
             <img id="pointer" src="pointinghand.svg">
         </main>
         <div class="instructions">
@@ -60,12 +65,14 @@
             let ogLinkText = "Click and Drag";
 
             const link = document.getElementById("link");
+            const linkText = document.getElementById("link-text");
             const nameContainer = document.getElementById("name-container");
             const mustClickAndDrag = document.getElementById("must-click-and-drag");
 
             link.href = code;
 
             if (name) {
+                link.textContent = name;
                 nameContainer.textContent = name + " ";
             }
 
@@ -83,7 +90,7 @@
             infoEl.append(explanation);
 
             link.ondragstart = (event) => {
-                link.textContent = "Drag Upwards";
+                linkText.textContent = "Drag Upwards";
                 mustClickAndDrag.animate([{ opacity: 0 }], { duration: 50, fill: "forwards" });
 
                 document.body.appendChild(infoEl);
@@ -100,7 +107,7 @@
             }
 
             link.ondragend = (event) => {
-                link.textContent = ogLinkText;
+                linkText.textContent = ogLinkText;
             }
 
 
