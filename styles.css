@@ -91,6 +91,27 @@ main:hover #pointer {
     font-weight: bold;
 }
 
+#copy-link {
+    border: none;
+    color: white;
+    font-size: 0.9rem;
+    margin: auto;
+    padding: 0.18rem 1rem;
+    background-color: rgb(115, 145, 255);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s, background-color 0.3s;
+    line-height: 1.6em;
+}
+#copy-link:hover {
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+#copy-link.copied {
+    background: rgb(0, 190, 127);
+}
+
 /* FOOTER */
 footer {
     position: absolute;
@@ -150,7 +171,6 @@ footer a {
     display: flex;
     flex-direction: column;
     gap: 0.45rem;
-    max-width: 90vw;
 }
 .input span {
     margin-left: 0.3rem;
@@ -182,6 +202,8 @@ footer a {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
+    width: min(90vw, 263px);
+    margin: auto;
 }
 
 #creator-submit {
@@ -196,10 +218,15 @@ footer a {
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s;
     line-height: 1.6em;
+    font-weight: 600;
 }
 #creator-submit:hover {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
 }
-#creator-submit {
-    font-weight: 600;
+
+#creator-heading {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    padding: 0rem 1.1rem;
+    text-align: center;
 }

@@ -20,16 +20,18 @@
                     draggable="true">New Bookmark</a>
                 <span id="link-text">Click and Drag</span>
             </div>
-            <img id="pointer" src="pointinghand.svg">
+            <img id="pointer" src="pointinghand.svg" width="37">
         </main>
         <div class="instructions">
             <p id="text-instructions">To download the <span id="name-container"></span>bookmarklet, drag the button
                 above to your bookmarks bar.</p>
+            <button id="copy-link" style="display: none">Copy Link</button>
             <p class="error" id="must-click-and-drag" style="opacity: 0;">You must click and then <strong>drag</strong>
                 to install</p>
         </div>
     </div>
     <div id="creator-content" style="display: none;">
+        <h1 id="creator-heading">Create an Installer</h1>
         <form id="creator-form" action="/" method="get">
             <label class="input">
                 <span>Paste Bookmarklet</span>
@@ -40,6 +42,7 @@
                 <span>Name (optional)</span>
                 <input name="name" />
             </label>
+            <input type="hidden" name="new" value="true">
             <button id="creator-submit">Create</button>
         </form>
     </div>
@@ -50,7 +53,7 @@
         </span>
         <span>Made with ❤️ by <a href="https://natelev.in/" class="website-link">Nate Levin</a> •
             <a href="https://github.com/UltimatePro-Grammer/installbookmarklet" title="Read source code on GitHub"
-                class="github-link" target="_blank">
+                class="github-link" target="_blank" width="16">
                 <img src="logo-github.svg">
             </a>
         </span>
@@ -60,6 +63,27 @@
         const queryParams = new URLSearchParams(location.search);
         const code = queryParams.get("url");
         const name = queryParams.get("name");
+        const isNew = queryParams.get("new");
+
+        if (isNew) {
+            // first, remove from query params so that copy+pasting from navbar won't have this show up for others
+            queryParams.delete("new");
+            window.history.replaceState({}, "", `/?${queryParams.toString()}`);
+
+            // now show the share button
+            const copyLink = document.getElementById("copy-link");
+            copyLink.style.display = "";
+            copyLink.onclick = () => {
+                navigator.clipboard.writeText(location.href).then(() => {
+                    copyLink.textContent = "Link copied to clipboard.";
+                    copyLink.classList.add("copied");
+                    setTimeout(() => {
+                        copyLink.textContent = "Copy Link";
+                        copyLink.classList.remove("copied");
+                    }, 2000);
+                });
+            }
+        }
 
         if (code) {
             let ogLinkText = "Click and Drag";
@@ -80,7 +104,7 @@
             infoEl.classList.add("info");
 
             const star = document.createElement("div");
-            star.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Star</title><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="#fcdf03" stroke="currentColor" stroke-linejoin="round" stroke-width="18"/></svg>`;
+            star.innerHTML = `< svg xmlns = "http://www.w3.org/2000/svg" class= "ionicon" viewBox = "0 0 512 512" ><title>Star</title><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="#fcdf03" stroke="currentColor" stroke-linejoin="round" stroke-width="18"/></svg >`;
             star.classList.add("star");
             infoEl.append(star);
 
